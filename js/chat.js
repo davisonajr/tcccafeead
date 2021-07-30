@@ -100,6 +100,7 @@ chat.atualizar = function(forceParaBaixo){
 chat.enviando = 0;
 chat.enviaMensagem = function(mensagem){
     mensagem = chat.replaceurl(mensagem);
+    mensagem = chat.replaceparagraph(mensagem);
     if(chat.enviando === 0){
         chat.enviando = 1;
         $("#chatI_" + chat.idElemento).prop('disabled', true);
@@ -163,6 +164,15 @@ chat.replaceurl = function(message) {
       }
       return '<a href="' + hyperlink + '" target="_blank" rel="noopener noreferrer">' + url + '</a>'
     });
+  }
+chat.replaceparagraph = function(message) {
+    if(!message) return;
+    let splittext =  message.split("\n");
+    m ='';
+    for (splited of splittext) {
+        m += '<p>'+splited+'</p><br/>';
+    }
+    return m;
   }
 $("body").ready(function(){
     chat.iniciar();
