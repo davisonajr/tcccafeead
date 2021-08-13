@@ -298,6 +298,7 @@ echo $OUTPUT->header();
 <link rel="stylesheet" type="text/css" href="./css/chat.css" charset="utf-8"/>
 <script type="text/javascript" src="./js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript" src="./js/form.js"></script>
+<script type="text/javascript" src="./js/fgEmojiPicker.js"></script>
 <script type="text/javascript" src="./js/chat.js"></script>
 <script type="text/javascript" src="./js/arquivos.js"></script>
 <script type="text/javascript" src="./materialG/js/materialG.js"></script>

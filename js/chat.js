@@ -32,10 +32,30 @@ chat.iniciar = function(){
 
         $('#chatI_' + idElemento).val($(this).data('text')).focus();
     });
+    // add emojipicker
+
     setInterval(function(){chat.consultaNovas();}, 30000);
+
 };
 chat.listaTextoPreDefinido = '';
 
+chat.initemoji = function() {
+    if($('#emojibutton').length === 0) {
+        but = document.createElement('button');
+        but.id = 'emojibutton';
+        but.innerText = '😀';
+        document?.querySelector('.chatAtu ~ textarea').before(but);
+        new FgEmojiPicker({
+            trigger: 'button#emojibutton',
+            position: ['bottom', 'right'],
+            preFetch: true,
+            emit(obj, triggerElement) {
+                const emoji = obj.emoji;
+                document.querySelector('textarea#'+document.querySelector('.chatAtu ~ textarea').id).value += emoji;
+            }
+        });
+    };
+};
 chat.carregaTextoPreDefinido = function(){
     var form = {acao: 'chatBuscaTextosPreDefinidos'};
     $.post(urlChat, form, function(data){
@@ -72,6 +92,7 @@ chat.abrirJanela = function(tccid, groupid, groupname, institution){
             chat.timer = setInterval(function(){ chat.atualizar(); }, 5000);
             
         });
+        chat.initemoji();
 };
 
 chat.atualizar = function(forceParaBaixo){
@@ -168,12 +189,17 @@ chat.replaceurl = function(message) {
 chat.replaceparagraph = function(message) {
     if(!message) return;
     let splittext =  message.split("\n");
-    m ='';
-    for (splited of splittext) {
-        m += '<p>'+splited+'</p><br/>';
+    if(splittext.length > 1) {
+        let m ='';
+        for (splited of splittext) {
+            m += '<p>'+splited+'</p><br/>';
+        }
+        return m;
     }
-    return m;
-  }
+    else {
+        return '</p>'+message+'</p>';
+    }
+}
 $("body").ready(function(){
     chat.iniciar();
 });
